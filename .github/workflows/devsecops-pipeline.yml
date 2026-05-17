@@ -38,7 +38,8 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: false
+        with:
+          args: detect --source . --redact -v
 
       #############################################################
       # SEMGREP SAST SCAN
@@ -49,6 +50,7 @@ jobs:
         with:
           config: auto
         continue-on-error: false
+
       #############################################################
       # TRIVY FILESYSTEM / DEPENDENCY SCAN
       #############################################################
@@ -337,7 +339,7 @@ jobs:
       - name: Wait For EC2 Initialization
         run: |
 
-          sleep 120
+          sleep 180
 
       #############################################################
       # DEPLOY CONTAINERS
