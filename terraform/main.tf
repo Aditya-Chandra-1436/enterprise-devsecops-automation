@@ -1,11 +1,17 @@
+resource "random_id" "suffix" {
+  byte_length = 4
+}
+
 resource "aws_key_pair" "deploy_key" {
-  key_name   = "enterprise-devsecops-key"
+
+  key_name = "enterprise-devsecops-key-${random_id.suffix.hex}"
+
   public_key = file("keys/id_rsa.pub")
 }
 
 resource "aws_security_group" "deploy_sg" {
 
-  name = "enterprise-devsecops-sg"
+  name = "enterprise-devsecops-sg-${random_id.suffix.hex}"
 
   ingress {
     from_port   = 22
@@ -31,10 +37,15 @@ resource "aws_security_group" "deploy_sg" {
 
 resource "aws_instance" "devsecops_server" {
 
-  ami                    = "ami-04f167a56786e4b09"
-  instance_type          = "t3.micro"
-  key_name               = aws_key_pair.deploy_key.key_name
-  vpc_security_group_ids = [aws_security_group.deploy_sg.id]
+  ami           = "ami-04f167a56786e4b09"
+
+  instance_type = "t3.micro"
+
+  key_name = aws_key_pair.deploy_key.key_name
+
+  vpc_security_group_ids = [
+    aws_security_group.deploy_sg.id
+  ]
 
   user_data = <<-EOF
               #!/bin/bash
