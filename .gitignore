@@ -1,0 +1,7 @@
+node_modules/
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+*.pem
+private_key.pem
+report.json
