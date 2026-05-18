@@ -339,7 +339,7 @@ jobs:
       - name: Wait For EC2 Initialization
         run: |
 
-          sleep 180
+          sleep 120
 
       #############################################################
       # DEPLOY CONTAINERS
